@@ -19,24 +19,25 @@
       apiResponseBlock.innerHTML = JSON.stringify({
         statusText: response.statusText,
         status: response.status,
-        payload
+        payload,
       }, undefined, 2);
     } catch (error) {
       apiResponseBlock.textContent = error;
     }
-  }
+  };
 
   function fetchUserProtectedInfo() {
-    fetchApiData('/api/arterra/protected-user-info')
+    fetchApiData('/api/arterra/protected-user-info');
   }
 
   function fetchUserCollectibles() {
-    fetchApiData('/api/arterra/user-collectibles')
+    fetchApiData('/api/arterra/user-collectibles');
   }
 
   function logout() {
     fetch('/api/logout');
     document.getElementById('apiResponse').innerHTML = '';
+    window.location = '/';
   }
 </script>
 
