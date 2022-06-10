@@ -1,0 +1,20 @@
+{
+  "name": "arterra-oauth2-connect-example",
+  "version": "1.0.0",
+  "description": "ARterra Labs OAuth2 connection example",
+  "main": "src/app-raw-axios-auth.js",
+  "scripts": {
+    "start": "npm run start-raw-axios",
+    "start-raw-axios": "node src/app-raw-axios-auth.js",
+    "start-oauth2-passport": "node src/app-passport-oauth2-auth.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "passport": "^0.6.0",
+    "passport-oauth2": "^1.6.1"
+  }
+}

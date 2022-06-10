@@ -1,0 +1,56 @@
+<script>
+  const queryParams = new URLSearchParams(location.search);
+  if (queryParams.get('oauth2-login') === 'true') {
+    alert('ARterra Labs OAuth2 successful auth!');
+  } else if (
+    queryParams.get('error') ||
+    (queryParams.get('oauth2-login') && queryParams.get('oauth2-login') !== 'true')
+  ) {
+    alert('ARterra Labs OAuth2 failed auth!');
+  }
+
+  const fetchApiData = async (url) => {
+    const apiResponseBlock = document.getElementById('apiResponse');
+
+    try {
+      const response = await fetch(url);
+      const payload = await response.json();
+
+      apiResponseBlock.innerHTML = JSON.stringify({
+        statusText: response.statusText,
+        status: response.status,
+        payload
+      }, undefined, 2);
+    } catch (error) {
+      apiResponseBlock.textContent = error;
+    }
+  }
+
+  function fetchUserProtectedInfo() {
+    fetchApiData('/api/arterra/protected-user-info')
+  }
+
+  function fetchUserCollectibles() {
+    fetchApiData('/api/arterra/user-collectibles')
+  }
+
+  function logout() {
+    fetch('/api/logout');
+    document.getElementById('apiResponse').innerHTML = '';
+  }
+</script>
+
+<a href="/api/arterra/login">Login via ARterra Labs</a>
+
+<br/>
+<br/>
+
+<button onclick="fetchUserProtectedInfo()">Fetch user protected info</button>
+<button onclick="fetchUserCollectibles()">Fetch collectibles</button>
+<button onclick="logout()">Logout</button>
+
+<br/>
+
+<div>
+  <pre id="apiResponse"></pre>
+</div>
