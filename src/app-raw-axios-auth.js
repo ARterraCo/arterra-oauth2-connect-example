@@ -46,7 +46,6 @@ app.get('/api/arterra/login-callback', async (req, res) => {
   );
 
   console.log({
-    // accessTokenResponse.data.profile field will be added in the upcoming release, for now might be null
     user: accessTokenResponse.data.profile,
     authInfo: {
       accessToken: accessTokenResponse.data.access_token,

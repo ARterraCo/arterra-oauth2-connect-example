@@ -26,8 +26,7 @@ passport.use(new OAuth2Strategy({
 
     cb(
       null, // error
-      // accessTokenResponse.profile field will be added in the upcoming release, for now might be null
-      accessTokenResponse.profile || {}, // assigned by passport middleware to 'req.user' field
+      accessTokenResponse.profile, // assigned by passport middleware to 'req.user' field
       { // assigned by passport middleware to 'req.authInfo' field
         accessToken,
         accessTokenExpiresIn: accessTokenResponse.expires_in,
