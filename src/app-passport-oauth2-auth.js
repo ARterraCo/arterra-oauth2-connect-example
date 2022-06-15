@@ -9,7 +9,8 @@ const { APP_PORT, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, ARTERRA_BASE_URL } = r
 const app = express();
 
 // Use session memory store to save ARterra Labs access token for future user requests.
-// You can choose to use any other server side or cookie/JWT storage implementation
+// You can choose to use any other server side or cookie/JWT storage implementation.
+// Current memory storage implementation only for dev purposes and should not be used for production system
 app.use(session({ secret: '4ire,+&1LM3)CD*ARterra{nft;#', resave: true, saveUninitialized: true }));
 
 // you can send raw auth requests using axios or include some oauth2 library, e.g. passport-oauth2
@@ -21,10 +22,10 @@ passport.use(new OAuth2Strategy({
     clientSecret: CLIENT_SECRET,
     callbackURL: REDIRECT_URI,
   },
-  (accessToken, refreshToken, accessTokenResponse, _, cb) => {
-    console.log({ accessToken, refreshToken, accessTokenResponse, _, cb });
+  (accessToken, refreshToken, accessTokenResponse, _, callback) => {
+    console.log({ accessToken, refreshToken, accessTokenResponse });
 
-    cb(
+    callback(
       null, // error
       accessTokenResponse.profile, // assigned by passport middleware to 'req.user' field
       { // assigned by passport middleware to 'req.authInfo' field
@@ -61,6 +62,7 @@ app.get(
     // save ARterra Labs auth info in user session (cookie/JWT/any server side storage) linked to the user
     // to make future requests on behalf of the authenticated user to ARterra Labs API
     req.session.arterraAccessToken = req.authInfo.accessToken;
+    req.session.arterraUser = req.user;
 
     res.redirect('/?oauth2-login=true');
   },

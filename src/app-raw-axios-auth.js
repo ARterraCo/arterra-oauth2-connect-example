@@ -8,7 +8,8 @@ const { APP_PORT, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, ARTERRA_BASE_URL } = r
 const app = express();
 
 // Use session memory store to save ARterra Labs access token for future user requests.
-// You can choose to use any other server side or cookie/JWT storage implementation
+// You can choose to use any other server side or cookie/JWT storage implementation.
+// Current memory storage implementation only for dev purposes and should not be used for production system.
 app.use(session({ secret: '4ire,+&1LM3)CD*ARterra{nft;#', resave: true, saveUninitialized: true }));
 
 app.get('/', (req, res) => {
@@ -59,6 +60,7 @@ app.get('/api/arterra/login-callback', async (req, res) => {
   // save ARterra Labs auth info in user session (cookie/JWT/any server side storage) linked to the user
   // to make future requests on behalf of the authenticated user to ARterra Labs API
   req.session.arterraAccessToken = accessTokenResponse.data.access_token;
+  req.session.arterraUser = accessTokenResponse.data.profile;
 
   res.redirect('/?oauth2-login=true');
 });
